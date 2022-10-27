@@ -24,7 +24,7 @@ public class DiscountProgramService {
     public DiscountProgramResponse saveAndUpdate(DiscountProgramRequest discount) {
 
         Optional<TicketEntity>  ticket = ticketRepository.findById(discount.getTicketId());
-        if(!ticket.isPresent()){
+        if(ticket.isEmpty()){
             throw new RuntimeException();
         }
 

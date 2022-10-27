@@ -1,10 +1,8 @@
 package com.example.demo.request;
 
-import com.example.demo.entity.TicketEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @Data

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -28,11 +27,7 @@ public class UserController {
     @DeleteMapping(ID_PAGE_URL)
     public Boolean deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        if (userService.getUser(id).isPresent()) {
-            return false;
-        } else {
-            return true;
-        }
+        return userService.getUser(id).isEmpty();
     }
 
     @GetMapping
@@ -45,6 +40,5 @@ public class UserController {
     public UserResponse getUser(@PathVariable Long id) {
         return userService.findById(id);
     }
-
 
 }

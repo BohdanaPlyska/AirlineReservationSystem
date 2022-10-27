@@ -1,6 +1,5 @@
 package com.example.demo.request;
 
-import com.example.demo.entity.TicketEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 

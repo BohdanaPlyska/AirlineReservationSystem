@@ -11,20 +11,30 @@ import java.time.LocalDateTime;
 
 @Entity(name = "billingsInformation")
 public class BillingInformationEntity {
+
     @Id
     @GeneratedValue
     private Long id;
 
     @CreditCardNumber
     private BigInteger cardNumber;
-    private int Cvc;
+
+    private int cvc;
+
     private LocalDateTime expirationDay;
+
     private Boolean status;
+
     private String ownerName;
+
     private String ownerSurName;
+
     private String countryOfRegistrationCard;
+
     private String cityOfRegistrationCard;
+
     private String streetAddress;
+
     private Long price;
 
     @OneToOne(mappedBy = "billingInformationId")

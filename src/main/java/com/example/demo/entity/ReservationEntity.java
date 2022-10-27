@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "reservations")
 @NoArgsConstructor
 public class ReservationEntity {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -20,7 +21,7 @@ public class ReservationEntity {
     private LocalDateTime reservationDateTime;
 
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
-    private LocalDateTime expirationDateTime;//will update by algorithm when we have a lot of tickets
+    private LocalDateTime expirationDateTime;
 
     @OneToOne(mappedBy = "reservationId")
     private TicketEntity ticketId;

@@ -6,7 +6,6 @@ import com.example.demo.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -26,18 +25,12 @@ public class TicketController {
     @DeleteMapping(ID_PAGE_URL)
     public Boolean deleteTicket(@PathVariable Long id) {
         ticketService.delete(id);
-        if(ticketService.getTicket(id).isPresent()) {
-            return  false;
-        }else {
-            return true;
-        }
+        return ticketService.getTicket(id).isEmpty();
     }
 
     @GetMapping
     public List<TicketEntity> showAllTickets() {
-        List<TicketEntity> tickets = new ArrayList<>();
-        ticketService.allTickets().forEach(tickets::add);
-        return tickets;
+        return ticketService.allTickets();
      }
 
      @GetMapping(ID_PAGE_URL)

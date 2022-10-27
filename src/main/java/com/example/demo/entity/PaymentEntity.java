@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,16 +36,8 @@ public class PaymentEntity {
 
     private Long finalPrice;
 
-//    @Column(name="user_id")
-//    private Long user;
-//
-//    @Column(name = "ticket_id")
-//    private Long ticket;
-
-
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-//    @JsonBackReference
     private UserEntity userId;//rename
 
     @OneToOne( cascade=CascadeType.ALL)

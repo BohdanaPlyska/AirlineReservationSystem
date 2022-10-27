@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "flights")
 @NoArgsConstructor
 public class FlightEntity {
+
     @Id
     @GeneratedValue
     private Long id;

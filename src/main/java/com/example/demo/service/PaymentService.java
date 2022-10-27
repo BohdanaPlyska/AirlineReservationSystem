@@ -28,7 +28,7 @@ public class PaymentService {
         //the same for ticket
         //put user, ticket, and data from request to
         Optional<UserEntity> user =  userRepository.findById(request.getUserId());
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             throw  new Exception();
         }
 
@@ -38,12 +38,8 @@ public class PaymentService {
         }
 
         PaymentEntity validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
-//        PaymentEntity validDataForPayment = paymentMapper.paymentRequestToPayment(request);
-
         PaymentEntity paymentEntity = paymentRepository.save(validDataForPayment);
         return paymentMapper.paymentEntityToPaymentResponse(paymentEntity);
-
-
     }
 
     public void delete(Long id){
@@ -53,8 +49,7 @@ public class PaymentService {
 
     public List<PaymentResponse> allPayments() {
         List<PaymentEntity> paymentEntities = paymentRepository.findAll();
-        List<PaymentResponse> paymentResponses = paymentMapper.paymentEntityListToPaymentResponseList(paymentEntities);
-       return paymentResponses;
+        return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntities);
     }
 
     public Optional<PaymentEntity> getPayment(Long id){
@@ -64,6 +59,5 @@ public class PaymentService {
     public PaymentResponse findById(Long id){
         return paymentMapper.paymentEntityToPaymentResponse(paymentRepository.findById(id).get());
     }
-
 
 }

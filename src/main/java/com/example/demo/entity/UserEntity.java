@@ -18,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "users")
 public class UserEntity {
+
     @Id
     @GeneratedValue
     private Long id;

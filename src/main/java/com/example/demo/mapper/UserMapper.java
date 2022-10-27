@@ -4,7 +4,6 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.request.UserRequest;
 import com.example.demo.request.UserResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 

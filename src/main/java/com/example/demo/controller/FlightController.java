@@ -7,7 +7,6 @@ import com.example.demo.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -27,18 +26,12 @@ public class FlightController {
     @DeleteMapping(ID_PAGE_URL)
     public Boolean delete(@PathVariable Long id) {
         flightService.delete(id);
-        if(flightService.getFlight(id).isPresent()) {
-            return false;
-        } else {
-            return true;
-        }
+        return flightService.getFlight(id).isEmpty();
     }
 
     @GetMapping
     public List<FlightResponse> getAllFlights() {
-        List<FlightResponse> flights = new ArrayList<>();
-        flightService.allFlights().forEach(flights::add);
-        return flights;
+        return flightService.allFlights();
     }
 
     @GetMapping(ID_PAGE_URL)

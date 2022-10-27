@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(name = "tickets")
 @NoArgsConstructor
 public class TicketEntity {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -33,7 +34,6 @@ public class TicketEntity {
     Set<UserEntity> userId;
 
     @OneToOne( mappedBy = "ticket")
-//    @JoinColumn(name = "payment_id", referencedColumnName = "id")
     private PaymentEntity payment;
 
 
@@ -51,6 +51,5 @@ public class TicketEntity {
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "billingInformation_id", referencedColumnName= "id")
     private BillingInformationEntity billingInformationId;
-
 
 }

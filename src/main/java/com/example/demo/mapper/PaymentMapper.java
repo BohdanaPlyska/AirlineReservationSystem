@@ -15,13 +15,7 @@ public interface PaymentMapper {
     @Mapping(source = "paymentRequest.id", target = "id")
     @Mapping(source = "ticket", target = "ticket")
     @Mapping(source = "user", target = "userId")
-//    @Mapping(source = "user.id", target = "userId.id")
-//    @Mapping(source = "ticket.id", target = "ticketId.id")
-//    @Mapping(source = "ticket.price", target = "ticketId.price")
     PaymentEntity paymentRequestToPayment(PaymentRequest paymentRequest, UserEntity user, TicketEntity ticket);
-
-//    PaymentEntity paymentRequestToPayment(PaymentRequest paymentRequest);
-
 
     PaymentResponse paymentEntityToPaymentResponse(PaymentEntity paymentEntity);
 
