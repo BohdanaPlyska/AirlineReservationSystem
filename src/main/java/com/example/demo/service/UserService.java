@@ -1,19 +1,43 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.UserEntity;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.request.UserRequest;
+import com.example.demo.request.UserResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+@Service
+@RequiredArgsConstructor
+public class UserService{
 
-    User saveAndUpdate(User user);
+    private final UserRepository userRepository;
 
-    void delete (Long id);
+    private final UserMapper userMapper;
 
-    List<User> findAll();
+    public UserEntity saveAndUpdate(UserRequest user) {
+        return userRepository.save(userMapper.userRequestToUserEntity(user));
+    }
 
-    User findById(Long id);
+    public void delete(Long id) {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+        userOptional.ifPresent(userRepository::delete);
+    }
 
-    Optional<User> getUser(Long id);
+    public List<UserResponse> allUsers() {
+        List<UserEntity> userEntityList = userRepository.findAll();
+        return userMapper.userEntityListToUserResponseList(userEntityList);
+    }
+
+    public UserResponse findById(Long id) {
+        return userMapper.userEntityToUserResponse(userRepository.findById(id).get());
+    }
+
+    public Optional<UserEntity> getUser(Long id) {
+        return userRepository.findById(id);
+    }
 }

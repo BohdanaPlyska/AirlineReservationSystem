@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.UserEntity;
+import com.example.demo.request.UserRequest;
+import com.example.demo.request.UserResponse;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,37 +13,37 @@ import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
 
-@Controller
+@RestController
+@RequestMapping(value = USERS_PAGE_URL)
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping(USER_SAVE_USER_PAGE_URL)
-    public ResponseEntity<User> saveAndUpdate(@RequestBody User user) {
-        return new ResponseEntity<>(userService.saveAndUpdate(user), HttpStatus.CREATED);
+    @PostMapping
+    public UserEntity saveAndUpdateUser(@RequestBody UserRequest request) {
+        return userService.saveAndUpdate(request);
     }
 
-    @DeleteMapping(USER_DELETE_PAGE_URL)
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+    @DeleteMapping(ID_PAGE_URL)
+    public Boolean deleteUser(@PathVariable Long id) {
         userService.delete(id);
         if (userService.getUser(id).isPresent()) {
-            return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+            return false;
         } else {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return true;
         }
     }
 
-    @GetMapping(USERS_PAGE_URL)
-    public ResponseEntity<List<User>> showAllUsers() {
-        List<User> users = new ArrayList<>();
-        userService.findAll().forEach(users::add);
-        return ResponseEntity.ok(users);
+    @GetMapping
+    public List<UserResponse> showAllUsers() {
+        return userService.allUsers();
+
     }
 
-    @GetMapping(USER_GET_USER_PAGE_URL)
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok().body(userService.findById(id));
+    @GetMapping(ID_PAGE_URL)
+    public UserResponse getUser(@PathVariable Long id) {
+        return userService.findById(id);
     }
 
 
