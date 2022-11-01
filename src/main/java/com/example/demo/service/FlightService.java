@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.FlightEntity;
+import com.example.demo.entity.Flight;
+import com.example.demo.exception.CustomAlreadyExistException;
+import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.FlightMapper;
 import com.example.demo.repository.FlightRepository;
 import com.example.demo.request.FlightRequest;
@@ -19,27 +21,36 @@ public class FlightService {
 
     private final FlightMapper flightMapper;
 
-    public FlightResponse saveAndUpdate(FlightRequest flightRequest) {
-        FlightEntity validDataForFlight = flightMapper.flightRequestToFlightEntity(flightRequest);
-        FlightEntity flightEntity = flightRepository.save(validDataForFlight);
-        return flightMapper.flightEntityToFlightResponse(flightEntity);
+    public FlightResponse save(FlightRequest flightRequest) {
+        Optional<Flight> flightSearch = flightRepository.findByFlightNumber(flightRequest.getFlightNumber());
+       if(!flightSearch.isEmpty()){
+           throw new CustomAlreadyExistException("Flight already exist");
+       }
+
+        Flight validDataForFlight = flightMapper.flightRequestToFlightEntity(flightRequest);
+        Flight flight = flightRepository.save(validDataForFlight);
+        return flightMapper.flightEntityToFlightResponse(flight);
     }
 
     public void delete(Long id) {
-        Optional<FlightEntity> flightEntityOptional = flightRepository.findById(id);
+        Optional<Flight> flightEntityOptional = flightRepository.findById(id);
         flightEntityOptional.ifPresent(flightRepository::delete);
     }
 
     public List<FlightResponse> allFlights() {
-         List<FlightEntity> flightEntities = flightRepository.findAll();
+         List<Flight> flightEntities = flightRepository.findAll();
          return flightMapper.flightEntityListToFlightResponse(flightEntities);
     }
 
     public FlightResponse findById(Long id) {
+        Optional<Flight> flight = flightRepository.findById(id);
+        if(flight.isEmpty()){
+            throw new CustomFoundException("Flight not found");
+        }
         return flightMapper.flightEntityToFlightResponse(flightRepository.findById(id).get());
     }
 
-    public Optional<FlightEntity> getFlight(Long id) {
+    public Optional<Flight> getFlight(Long id) {
         return flightRepository.findById(id);
     }
 

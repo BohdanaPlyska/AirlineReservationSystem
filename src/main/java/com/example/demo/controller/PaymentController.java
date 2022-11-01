@@ -6,6 +6,7 @@ import com.example.demo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -18,8 +19,8 @@ public class PaymentController {
     public final PaymentService paymentService;
 
     @PostMapping
-    public PaymentResponse savePayment(@RequestBody PaymentRequest request) throws Exception {
-        return paymentService.saveAndUpdate(request);
+    public PaymentResponse save(@RequestBody @Valid PaymentRequest request) {
+        return paymentService.save(request);
     }
 
     @DeleteMapping(ID_PAGE_URL)

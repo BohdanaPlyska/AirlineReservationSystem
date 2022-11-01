@@ -1,7 +1,11 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.FlightEntity;
+import com.example.demo.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FlightRepository extends JpaRepository<FlightEntity,Long> {
+import java.util.Optional;
+
+public interface FlightRepository extends JpaRepository<Flight,Long> {
+
+    Optional<Flight> findByFlightNumber(String flightNumber);
 }

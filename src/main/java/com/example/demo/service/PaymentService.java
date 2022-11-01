@@ -1,7 +1,9 @@
 package com.example.demo.service;
-import com.example.demo.entity.PaymentEntity;
-import com.example.demo.entity.TicketEntity;
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.Payment;
+import com.example.demo.entity.Ticket;
+import com.example.demo.entity.User;
+import com.example.demo.exception.CustomAlreadyExistException;
+import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.PaymentMapper;
 import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.TicketRepository;
@@ -19,44 +21,54 @@ import java.util.Optional;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+
     private final UserRepository userRepository;
+
     private final TicketRepository ticketRepository;
+
     private final PaymentMapper paymentMapper;
 
-    public PaymentResponse saveAndUpdate(PaymentRequest request) throws Exception{
-        //find bi id user if not exception
-        //the same for ticket
-        //put user, ticket, and data from request to
-        Optional<UserEntity> user =  userRepository.findById(request.getUserId());
+    public PaymentResponse save(PaymentRequest request) {
+
+        Optional<Payment> paymentOptional = paymentRepository.findByUserAndTicket(request.getUser(), request.getTicket());
+        if(!paymentOptional.isEmpty()){
+            throw  new CustomAlreadyExistException("Payment already exist");
+        }
+
+        Optional<User> user =  userRepository.findById(request.getUser());
         if(user.isEmpty()){
-            throw  new Exception();
+            throw  new CustomFoundException("User not found");
         }
 
-        Optional<TicketEntity> ticket = ticketRepository.findById(request.getTicketId());
-        if(!ticket.isPresent()) {
-            throw new Exception();
+        Optional<Ticket> ticket = ticketRepository.findById(request.getTicket());
+        if(ticket.isEmpty()) {
+            throw new CustomFoundException("Ticket not found");
         }
 
-        PaymentEntity validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
-        PaymentEntity paymentEntity = paymentRepository.save(validDataForPayment);
+        Payment validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
+        Payment paymentEntity = paymentRepository.save(validDataForPayment);
         return paymentMapper.paymentEntityToPaymentResponse(paymentEntity);
     }
 
     public void delete(Long id){
-        Optional<PaymentEntity> paymentEntityOptional = paymentRepository.findById(id);
+        Optional<Payment> paymentEntityOptional = paymentRepository.findById(id);
         paymentEntityOptional.ifPresent(paymentRepository::delete);
     }
 
     public List<PaymentResponse> allPayments() {
-        List<PaymentEntity> paymentEntities = paymentRepository.findAll();
+        List<Payment> paymentEntities = paymentRepository.findAll();
         return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntities);
     }
 
-    public Optional<PaymentEntity> getPayment(Long id){
+    public Optional<Payment> getPayment(Long id){
          return paymentRepository.findById(id);
     }
 
     public PaymentResponse findById(Long id){
+        Optional<Payment> payment = paymentRepository.findById(id);
+        if(payment.isEmpty()){
+            throw new CustomFoundException("Payment not found");
+        }
         return paymentMapper.paymentEntityToPaymentResponse(paymentRepository.findById(id).get());
     }
 

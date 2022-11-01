@@ -12,10 +12,8 @@ public class FlightResponse {
 
     private String flightNumber;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
     private LocalDateTime departureTime;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
     private LocalDateTime arrivalTime;
 
     private int capacity;

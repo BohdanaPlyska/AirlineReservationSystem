@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DiscountProgramEntity;
-import com.example.demo.entity.TicketEntity;
+import com.example.demo.entity.DiscountProgram;
+import com.example.demo.entity.Ticket;
+import com.example.demo.exception.TicketNotFoundException;
 import com.example.demo.mapper.DiscountProgramMapper;
 import com.example.demo.repository.DiscountProgramRepository;
 import com.example.demo.repository.TicketRepository;
@@ -21,21 +22,21 @@ public class DiscountProgramService {
     private final DiscountProgramMapper discountMapper;
     private final TicketRepository ticketRepository;
 
-    public DiscountProgramResponse saveAndUpdate(DiscountProgramRequest discount) {
+    public DiscountProgramResponse save(DiscountProgramRequest discount) throws TicketNotFoundException {
 
-        Optional<TicketEntity>  ticket = ticketRepository.findById(discount.getTicketId());
+        Optional<Ticket>  ticket = ticketRepository.findById(discount.getTicketId());
         if(ticket.isEmpty()){
-            throw new RuntimeException();
+            throw new TicketNotFoundException("Ticket not found");
         }
 
-        DiscountProgramEntity validDataForPayment = discountMapper.discountProgramRequestToDiscountProgramEntity(discount, ticket.get());
+        DiscountProgram validDataForPayment = discountMapper.discountProgramRequestToDiscountProgramEntity(discount, ticket.get());
 
-        DiscountProgramEntity discountProgram = discountRepository.save(validDataForPayment);
+        DiscountProgram discountProgram = discountRepository.save(validDataForPayment);
         return discountMapper.discountProgramEntityToDiscountProgramResponse(discountProgram);
     }
 
     public void delete(Long id) {
-        Optional<DiscountProgramEntity> discountProgram = discountRepository.findById(id);
+        Optional<DiscountProgram> discountProgram = discountRepository.findById(id);
         discountProgram.ifPresent(discountRepository::delete);
     }
 
@@ -43,7 +44,7 @@ public class DiscountProgramService {
         return discountMapper.discountProgramEntityToDiscountProgramResponse(discountRepository.findById(id).get());
     }
 
-    public Optional<DiscountProgramEntity> getDiscount(Long id) {
+    public Optional<DiscountProgram> getDiscount(Long id) {
         return discountRepository.findById(id);
     }
 

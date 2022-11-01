@@ -7,6 +7,7 @@ import com.example.demo.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -19,8 +20,8 @@ public class FlightController {
     private final FlightService flightService;
 
     @PostMapping
-    public FlightResponse saveAndUpdate(@RequestBody FlightRequest flight) {
-        return flightService.saveAndUpdate(flight);
+    public FlightResponse save(@RequestBody @Valid FlightRequest flight) {
+        return flightService.save(flight);
     }
 
     @DeleteMapping(ID_PAGE_URL)

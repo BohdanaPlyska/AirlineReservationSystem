@@ -1,7 +1,10 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.ReservationEntity;
+import com.example.demo.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
+import java.util.Optional;
+
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    Optional<Reservation> findByTicketId(Long id);
 }

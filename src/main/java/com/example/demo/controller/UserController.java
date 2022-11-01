@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.User;
 import com.example.demo.request.UserRequest;
 import com.example.demo.request.UserResponse;
 import com.example.demo.service.UserService;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -20,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserEntity saveAndUpdateUser(@RequestBody UserRequest request) {
-        return userService.saveAndUpdate(request);
+    public User save( @RequestBody @Valid UserRequest request) {
+        return userService.save(request);
     }
 
     @DeleteMapping(ID_PAGE_URL)
@@ -33,7 +34,6 @@ public class UserController {
     @GetMapping
     public List<UserResponse> showAllUsers() {
         return userService.allUsers();
-
     }
 
     @GetMapping(ID_PAGE_URL)

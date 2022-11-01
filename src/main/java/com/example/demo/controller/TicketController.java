@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.TicketEntity;
+import com.example.demo.entity.Ticket;
 import com.example.demo.request.TicketRequest;
 import com.example.demo.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.constants.DefaultAppConstants.*;
@@ -18,8 +19,8 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    public TicketEntity saveAndUpdateTicket(@RequestBody TicketRequest ticket) {
-        return ticketService.saveAndUpdate(ticket);
+    public Ticket save(@RequestBody @Valid TicketRequest ticket) {
+        return ticketService.save(ticket);
     }
 
     @DeleteMapping(ID_PAGE_URL)
@@ -29,12 +30,12 @@ public class TicketController {
     }
 
     @GetMapping
-    public List<TicketEntity> showAllTickets() {
+    public List<Ticket> showAllTickets() {
         return ticketService.allTickets();
      }
 
      @GetMapping(ID_PAGE_URL)
-    public TicketEntity getTicket(@PathVariable Long id) {
+    public Ticket getTicket(@PathVariable Long id) {
         return ticketService.findById(id);
      }
 

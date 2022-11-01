@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,26 +10,30 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "flights")
 @NoArgsConstructor
-public class FlightEntity {
+public class Flight{
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "flight_number")
     private String flightNumber;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "departure_time")
     private LocalDateTime departureTime;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
 
+    @Column(name = "capacity")
     private int capacity;
 
+    @Column(name = "number_of_stops")
     private int numberOfStops;
 
     @ManyToOne
     @JoinColumn(name = "ticket_id")
-    private TicketEntity ticketId;
+    private Ticket ticket;
 
 }

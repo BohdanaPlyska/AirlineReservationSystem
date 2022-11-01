@@ -11,19 +11,21 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "reservations")
 @NoArgsConstructor
-public class ReservationEntity {
+public class Reservation {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "reservation_date_time")
     private LocalDateTime reservationDateTime;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "expiration_date_time")
     private LocalDateTime expirationDateTime;
 
-    @OneToOne(mappedBy = "reservationId")
-    private TicketEntity ticketId;
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
 
 }

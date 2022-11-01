@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.User;
+import com.example.demo.exception.CustomFoundException;
+import com.example.demo.exception.CustomAlreadyExistException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.request.UserRequest;
@@ -19,26 +21,43 @@ public class UserService{
 
     private final UserMapper userMapper;
 
-    public UserEntity saveAndUpdate(UserRequest user) {
+    public User save(UserRequest user) {
+        Optional<User> userOptional = userRepository.findByUserFirstNameAndLastName(user.getFirstName(), user.getLastName());
+        if(userOptional.isPresent()) {
+            throw new CustomAlreadyExistException("User already exist");
+        }
         return userRepository.save(userMapper.userRequestToUserEntity(user));
     }
 
     public void delete(Long id) {
-        Optional<UserEntity> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = userRepository.findById(id);
         userOptional.ifPresent(userRepository::delete);
     }
 
     public List<UserResponse> allUsers() {
-        List<UserEntity> userEntityList = userRepository.findAll();
-        return userMapper.userEntityListToUserResponseList(userEntityList);
+        List<User> userList = userRepository.findAll();
+        return userMapper.userEntityListToUserResponseList(userList);
     }
 
     public UserResponse findById(Long id) {
-        return userMapper.userEntityToUserResponse(userRepository.findById(id).get());
+         Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()){
+            throw  new CustomFoundException("User not found");
+        }
+        return userMapper.userEntityToUserResponse(user.get());
     }
 
-    public Optional<UserEntity> getUser(Long id) {
+    public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
     }
 
+    public UserResponse findByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        return userMapper.userEntityToUserResponseMapper(optionalUser);
+    }
+
+    public UserResponse findByFirstName(String firstName) {
+        Optional<User> optionalUser = userRepository.findByFirstName(firstName);
+        return userMapper.userEntityToUserResponseMapper(optionalUser);
+    }
 }

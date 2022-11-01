@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.PaymentEntity;
-import com.example.demo.entity.TicketEntity;
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.Payment;
+import com.example.demo.entity.Ticket;
+import com.example.demo.entity.User;
 import com.example.demo.request.PaymentRequest;
 import com.example.demo.request.PaymentResponse;
 import org.mapstruct.Mapper;
@@ -14,10 +14,10 @@ public interface PaymentMapper {
 
     @Mapping(source = "paymentRequest.id", target = "id")
     @Mapping(source = "ticket", target = "ticket")
-    @Mapping(source = "user", target = "userId")
-    PaymentEntity paymentRequestToPayment(PaymentRequest paymentRequest, UserEntity user, TicketEntity ticket);
+    @Mapping(source = "user", target = "user")
+    Payment paymentRequestToPayment(PaymentRequest paymentRequest, User user, Ticket ticket);
 
-    PaymentResponse paymentEntityToPaymentResponse(PaymentEntity paymentEntity);
+    PaymentResponse paymentEntityToPaymentResponse(Payment paymentEntity);
 
-    List<PaymentResponse> paymentEntityListToPaymentResponseList(List<PaymentEntity> paymentEntity);
+    List<PaymentResponse> paymentEntityListToPaymentResponseList(List<Payment> paymentEntity);
 }

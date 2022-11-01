@@ -4,13 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "discountsProgram")
-public class DiscountProgramEntity {
+public class DiscountProgram {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
-    @OneToOne(mappedBy = "discountProgramId")
-    private TicketEntity ticketId;
+    @OneToOne(mappedBy = "discountProgram")
+    private Ticket ticket;
 
 }
