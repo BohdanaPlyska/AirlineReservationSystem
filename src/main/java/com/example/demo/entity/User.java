@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -55,7 +56,7 @@ public class User {
     private String passportNumber;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Payment> payments;
 
     @OneToOne(cascade=CascadeType.ALL)
@@ -63,6 +64,7 @@ public class User {
     private BillingInformation billingInformation;
 
     @ManyToMany
+    @JsonIgnore
     Set<Ticket> tickets;
 
 }

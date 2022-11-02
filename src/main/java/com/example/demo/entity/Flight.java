@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +36,7 @@ public class Flight{
 
     @ManyToOne
     @JoinColumn(name = "ticket_id")
+    @JsonIgnore
     private Ticket ticket;
 
 }

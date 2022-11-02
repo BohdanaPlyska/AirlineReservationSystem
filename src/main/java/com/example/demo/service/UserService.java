@@ -22,7 +22,7 @@ public class UserService{
     private final UserMapper userMapper;
 
     public User save(UserRequest user) {
-        Optional<User> userOptional = userRepository.findByUserFirstNameAndLastName(user.getFirstName(), user.getLastName());
+        Optional<User> userOptional = userRepository.findByEmail( user.getEmail());
         if(userOptional.isPresent()) {
             throw new CustomAlreadyExistException("User already exist");
         }

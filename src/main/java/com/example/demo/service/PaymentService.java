@@ -37,12 +37,12 @@ public class PaymentService {
 
         Optional<User> user =  userRepository.findById(request.getUser());
         if(user.isEmpty()){
-            throw  new CustomFoundException("User not found");
+            throw  new CustomFoundException("User not found with this id");
         }
 
         Optional<Ticket> ticket = ticketRepository.findById(request.getTicket());
         if(ticket.isEmpty()) {
-            throw new CustomFoundException("Ticket not found");
+            throw new CustomFoundException("Ticket not found with this id");
         }
 
         Payment validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());

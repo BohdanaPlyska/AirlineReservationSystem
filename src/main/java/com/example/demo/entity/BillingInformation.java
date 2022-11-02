@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.*;
@@ -53,5 +54,6 @@ public class BillingInformation {
 
 
     @OneToOne(mappedBy = "billingInformation")
+    @JsonIgnore
     private Ticket ticket;
 }

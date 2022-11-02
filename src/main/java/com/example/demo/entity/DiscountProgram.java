@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class DiscountProgram {
     private Long id;
 
     @OneToOne(mappedBy = "discountProgram")
+    @JsonIgnore
     private Ticket ticket;
 
 }

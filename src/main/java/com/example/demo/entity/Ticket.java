@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -41,16 +43,20 @@ public class Ticket {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "discount_id")
+    @JsonIgnore
     private DiscountProgram discountProgram;
 
     @OneToOne(mappedBy = "ticket")
+    @JsonIgnore
     private Reservation reservation;
 
     @OneToMany(mappedBy = "ticket")
+    @JsonIgnore
     private Set<Flight> flights;
 
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "billingInformation_id")
+    @JsonIgnore
     private BillingInformation billingInformation;
 
 }

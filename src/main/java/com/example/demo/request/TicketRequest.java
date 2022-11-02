@@ -28,4 +28,6 @@ public class TicketRequest {
     @NotNull
     private Long price;
 
+
+
 }

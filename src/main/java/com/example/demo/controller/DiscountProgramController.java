@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-import com.example.demo.exception.TicketNotFoundException;
 import com.example.demo.request.DiscountProgramRequest;
 import com.example.demo.request.DiscountProgramResponse;
 import com.example.demo.service.DiscountProgramService;
@@ -20,7 +19,7 @@ public class DiscountProgramController {
     private final DiscountProgramService discountService;
 
     @PostMapping
-    public DiscountProgramResponse save(@RequestBody @Valid DiscountProgramRequest discountProgram) throws TicketNotFoundException {
+    public DiscountProgramResponse save(@RequestBody @Valid DiscountProgramRequest discountProgram) {
         return discountService.save(discountProgram);
     }
 

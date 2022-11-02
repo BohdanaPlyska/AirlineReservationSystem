@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +28,7 @@ public class Reservation {
 
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id", nullable = false)
+    @JsonIgnore
     private Ticket ticket;
 
 }

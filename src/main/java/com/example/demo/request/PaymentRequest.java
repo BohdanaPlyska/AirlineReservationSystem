@@ -5,18 +5,19 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
 public class PaymentRequest {
 
+    private Long id;
+
     @CreditCardNumber
     @NotNull
+    @NotBlank
     private String cardNumber;
 
     @NotNull
-    @Size(min = 3, max = 4)
     private int cvc;
 
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)

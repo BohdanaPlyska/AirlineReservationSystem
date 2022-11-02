@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.DiscountProgram;
 import com.example.demo.entity.Ticket;
-import com.example.demo.exception.TicketNotFoundException;
+import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.DiscountProgramMapper;
 import com.example.demo.repository.DiscountProgramRepository;
 import com.example.demo.repository.TicketRepository;
@@ -22,11 +22,11 @@ public class DiscountProgramService {
     private final DiscountProgramMapper discountMapper;
     private final TicketRepository ticketRepository;
 
-    public DiscountProgramResponse save(DiscountProgramRequest discount) throws TicketNotFoundException {
+    public DiscountProgramResponse save(DiscountProgramRequest discount) {
 
         Optional<Ticket>  ticket = ticketRepository.findById(discount.getTicketId());
         if(ticket.isEmpty()){
-            throw new TicketNotFoundException("Ticket not found");
+            throw new CustomFoundException("Ticket not found");
         }
 
         DiscountProgram validDataForPayment = discountMapper.discountProgramRequestToDiscountProgramEntity(discount, ticket.get());
