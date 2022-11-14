@@ -1,9 +1,9 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.DiscountProgram;
-import com.example.demo.entity.Ticket;
+import com.example.demo.entity.DiscountProgramEntity;
+import com.example.demo.entity.TicketEntity;
 import com.example.demo.request.DiscountProgramRequest;
-import com.example.demo.request.DiscountProgramResponse;
+import com.example.demo.response.DiscountProgramResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DiscountProgramMapper {
 
-    DiscountProgram discountProgramRequestToDiscountProgramEntity(DiscountProgramRequest request, Ticket ticket);
+    DiscountProgramEntity discountProgramRequestToDiscountProgramEntity(DiscountProgramRequest request, TicketEntity ticketEntity);
 
-    DiscountProgramResponse discountProgramEntityToDiscountProgramResponse(DiscountProgram entity);
+    DiscountProgramResponse discountProgramEntityToDiscountProgramResponse(DiscountProgramEntity entity);
 
-    List<DiscountProgramResponse> discountProgramEntityListToDiscountProgramResponseList(List<DiscountProgram> entityList);
+    List<DiscountProgramResponse> discountProgramEntityListToDiscountProgramResponseList(List<DiscountProgramEntity> entityList);
 
 }

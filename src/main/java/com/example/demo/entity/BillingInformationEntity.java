@@ -8,8 +8,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Entity(name = "billingsInformation")
-public class BillingInformation {
+@Entity(name = "billingInformationEntity")
+public class BillingInformationEntity {
 
     @Id
     @GeneratedValue
@@ -50,10 +50,10 @@ public class BillingInformation {
     private Long price;
 
     @OneToOne(mappedBy = "billingInformation")
-    private User user;
+    private UserEntity user;
 
 
     @OneToOne(mappedBy = "billingInformation")
     @JsonIgnore
-    private Ticket ticket;
+    private TicketEntity ticket;
 }

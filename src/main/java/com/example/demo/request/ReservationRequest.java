@@ -2,6 +2,7 @@ package com.example.demo.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class ReservationRequest {
     private LocalDateTime expirationDateTime;
 
     @NotNull
+    @Range(min = 1, message= "ticket number may not be empty or null")
     private Long ticket;
 
 }

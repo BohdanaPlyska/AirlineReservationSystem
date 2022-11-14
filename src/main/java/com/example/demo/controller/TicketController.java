@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Ticket;
 import com.example.demo.request.TicketRequest;
+import com.example.demo.response.TicketResponse;
 import com.example.demo.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.example.demo.constants.DefaultAppConstants.*;
+import static com.example.demo.constants.UrlPagesConstants.*;
 
 @RestController
 @RequestMapping(TICKETS_PAGE_URL)
@@ -19,7 +19,7 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    public Ticket save(@RequestBody @Valid TicketRequest ticket) {
+    public TicketResponse save(@RequestBody @Valid TicketRequest ticket) {
         return ticketService.save(ticket);
     }
 
@@ -30,12 +30,12 @@ public class TicketController {
     }
 
     @GetMapping
-    public List<Ticket> showAllTickets() {
+    public List<TicketResponse> showAllTickets() {
         return ticketService.allTickets();
      }
 
      @GetMapping(ID_PAGE_URL)
-    public Ticket getTicket(@PathVariable Long id) {
+    public TicketResponse getTicket(@PathVariable Long id) {
         return ticketService.findById(id);
      }
 

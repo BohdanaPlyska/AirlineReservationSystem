@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.request.FlightRequest;
-import com.example.demo.request.FlightResponse;
+import com.example.demo.response.FlightResponse;
 import com.example.demo.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.example.demo.constants.DefaultAppConstants.*;
+import static com.example.demo.constants.UrlPagesConstants.*;
 
 @RestController
 @RequestMapping(FLIGHTS_PAGE_URL)

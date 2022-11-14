@@ -1,14 +1,11 @@
-package com.example.demo.request;
+package com.example.demo.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 public class FlightResponse {
-
-    private Long id;
 
     private String flightNumber;
 
@@ -19,4 +16,5 @@ public class FlightResponse {
     private int capacity;
 
     private int numberOfStops;
+
 }

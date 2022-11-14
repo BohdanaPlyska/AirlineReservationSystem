@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "flights")
+@Table(name = "flightEntity")
 @NoArgsConstructor
-public class Flight{
+public class FlightEntity {
 
     @Id
     @GeneratedValue
@@ -37,6 +36,6 @@ public class Flight{
     @ManyToOne
     @JoinColumn(name = "ticket_id")
     @JsonIgnore
-    private Ticket ticket;
+    private TicketEntity ticket;
 
 }

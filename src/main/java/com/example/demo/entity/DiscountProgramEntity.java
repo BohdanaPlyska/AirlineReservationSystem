@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "discountsProgram")
-public class DiscountProgram {
+@Table(name = "discountProgramEntity")
+public class DiscountProgramEntity {
 
     @Id
     @GeneratedValue
@@ -15,6 +15,6 @@ public class DiscountProgram {
 
     @OneToOne(mappedBy = "discountProgram")
     @JsonIgnore
-    private Ticket ticket;
+    private TicketEntity ticket;
 
 }

@@ -7,9 +7,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class DiscountProgramRequest {
 
-    private Long id;
-
     @NotNull
-    private Long ticketId;
+    private Long ticket;
 
 }

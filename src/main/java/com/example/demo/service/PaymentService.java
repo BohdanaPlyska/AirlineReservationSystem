@@ -1,7 +1,7 @@
 package com.example.demo.service;
-import com.example.demo.entity.Payment;
-import com.example.demo.entity.Ticket;
-import com.example.demo.entity.User;
+import com.example.demo.entity.PaymentEntity;
+import com.example.demo.entity.TicketEntity;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.CustomAlreadyExistException;
 import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.PaymentMapper;
@@ -9,12 +9,14 @@ import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.request.PaymentRequest;
-import com.example.demo.request.PaymentResponse;
+import com.example.demo.response.PaymentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.demo.constants.ValidationMessages.*;
 
 @Service
 @RequiredArgsConstructor
@@ -29,47 +31,59 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
 
     public PaymentResponse save(PaymentRequest request) {
-
-        Optional<Payment> paymentOptional = paymentRepository.findByUserAndTicket(request.getUser(), request.getTicket());
-        if(!paymentOptional.isEmpty()){
-            throw  new CustomAlreadyExistException("Payment already exist");
-        }
-
-        Optional<User> user =  userRepository.findById(request.getUser());
-        if(user.isEmpty()){
-            throw  new CustomFoundException("User not found with this id");
-        }
-
-        Optional<Ticket> ticket = ticketRepository.findById(request.getTicket());
-        if(ticket.isEmpty()) {
-            throw new CustomFoundException("Ticket not found with this id");
-        }
-
-        Payment validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
-        Payment paymentEntity = paymentRepository.save(validDataForPayment);
+        findPaymentByTicket(request);
+        Optional<TicketEntity> ticket = findTicketById(request);
+        Optional<UserEntity> user = findUserById(request);
+        PaymentEntity validDataForPaymentEntity = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
+        PaymentEntity paymentEntity = paymentRepository.save(validDataForPaymentEntity);
         return paymentMapper.paymentEntityToPaymentResponse(paymentEntity);
     }
 
     public void delete(Long id){
-        Optional<Payment> paymentEntityOptional = paymentRepository.findById(id);
+        Optional<PaymentEntity> paymentEntityOptional = paymentRepository.findById(id);
         paymentEntityOptional.ifPresent(paymentRepository::delete);
     }
 
     public List<PaymentResponse> allPayments() {
-        List<Payment> paymentEntities = paymentRepository.findAll();
-        return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntities);
+        List<PaymentEntity> paymentEntityEntities = paymentRepository.findAll();
+        return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntityEntities);
     }
 
-    public Optional<Payment> getPayment(Long id){
+    public Optional<PaymentEntity> getPayment(Long id){
          return paymentRepository.findById(id);
     }
 
     public PaymentResponse findById(Long id){
-        Optional<Payment> payment = paymentRepository.findById(id);
+        Optional<PaymentEntity> payment = paymentRepository.findById(id);
         if(payment.isEmpty()){
-            throw new CustomFoundException("Payment not found");
+            throw new CustomFoundException(PAYMENT_NOT_FOUND);
         }
         return paymentMapper.paymentEntityToPaymentResponse(paymentRepository.findById(id).get());
     }
+
+    public Optional<PaymentEntity> findPaymentByTicket(PaymentRequest request) {
+        Optional<PaymentEntity> paymentOptional = paymentRepository.findByTicketId(request.getTicket());
+        if(paymentOptional.isPresent()){
+            throw  new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST);
+        }
+        return paymentOptional;
+    }
+
+    public Optional<TicketEntity> findTicketById(PaymentRequest request) {
+        Optional<TicketEntity> ticket = ticketRepository.findById(request.getTicket());
+        if(ticket.isEmpty()) {
+            throw new CustomFoundException(TICKET_NOT_FOUND);
+        }
+        return ticket;
+    }
+
+    public Optional<UserEntity> findUserById(PaymentRequest request) {
+        Optional<UserEntity> user =  userRepository.findById(request.getUser());
+        if(user.isEmpty()){
+            throw  new CustomFoundException(USER_NOT_FOUND);
+        }
+        return user;
+    }
+
 
 }

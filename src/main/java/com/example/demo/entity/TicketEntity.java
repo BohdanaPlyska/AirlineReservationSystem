@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +10,9 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "tickets")
+@Table(name = "ticketEntity")
 @NoArgsConstructor
-public class Ticket {
+public class TicketEntity {
 
     @Id
     @GeneratedValue
@@ -26,7 +25,7 @@ public class Ticket {
     @Column(name = "date_of_purchase")
     private LocalDateTime dateOfPurchase;
 
-    @Column(name = "seat_number")
+    @Column(name = "seat_number", nullable = false)
     private Long seatNumber;
 
     @Column(name = "type_of_ticket")
@@ -36,27 +35,27 @@ public class Ticket {
     private Long price;
 
     @ManyToMany
-    Set<User> user;
+    Set<UserEntity> user;
 
     @OneToOne( mappedBy = "ticket")
-    private Payment payment;
+    private PaymentEntity payment;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "discount_id")
     @JsonIgnore
-    private DiscountProgram discountProgram;
+    private DiscountProgramEntity discountProgram;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne(mappedBy = "ticket",orphanRemoval = true)
     @JsonIgnore
-    private Reservation reservation;
+    private ReservationEntity reservation;
 
     @OneToMany(mappedBy = "ticket")
     @JsonIgnore
-    private Set<Flight> flights;
+    private Set<FlightEntity> flights;
 
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "billingInformation_id")
     @JsonIgnore
-    private BillingInformation billingInformation;
+    private BillingInformationEntity billingInformation;
 
 }

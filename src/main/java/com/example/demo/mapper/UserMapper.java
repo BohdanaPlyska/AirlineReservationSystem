@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.request.UserRequest;
-import com.example.demo.request.UserResponse;
+import com.example.demo.response.UserResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -11,13 +11,12 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User userRequestToUserEntity(UserRequest userRequest);
+    UserEntity userRequestToUserEntity(UserRequest userRequest);
 
-     List<UserResponse> userEntityListToUserResponseList(List<User> user);
+     List<UserResponse> userEntityListToUserResponseList(List<UserEntity> userEntity);
 
-     UserResponse userEntityToUserResponse(User user);
+     UserResponse userEntityToUserResponse(UserEntity userEntity);
 
-    UserResponse userEntityToUserResponseMapper(Optional<User> user);
-
+    UserResponse userEntityToUserResponseMapper(Optional<UserEntity> user);
 
 }

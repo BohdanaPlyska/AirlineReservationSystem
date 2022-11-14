@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "reservations")
+@Table(name = "reservationEntity")
 @NoArgsConstructor
-public class Reservation {
+public class ReservationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +27,6 @@ public class Reservation {
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id", nullable = false)
     @JsonIgnore
-    private Ticket ticket;
+    private TicketEntity ticket;
 
 }

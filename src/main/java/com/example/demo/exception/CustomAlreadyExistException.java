@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+
 import org.springframework.security.acls.model.AlreadyExistsException;
 
 public class CustomAlreadyExistException extends AlreadyExistsException {

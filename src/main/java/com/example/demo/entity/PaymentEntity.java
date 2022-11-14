@@ -7,15 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "payments")
+@Table(name = "paymentEntity")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class PaymentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,7 @@ public class Payment {
     private String cardNumber;
 
     @Column(name = "cvc")
-    private int cvc;
+    private String cvc;
 
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     @Column(name = "expiration_day")
@@ -44,14 +43,14 @@ public class Payment {
     @Column(name = "final_price")
     private Long finalPrice;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
-    private User user;
+    private UserEntity user;
 
     @OneToOne( cascade=CascadeType.ALL)
     @JoinColumn(name = "ticket_id", nullable = false)
     @JsonIgnore
-    private Ticket ticket;
+    private TicketEntity ticket;
 
 }

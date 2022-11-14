@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.request.PaymentRequest;
-import com.example.demo.request.PaymentResponse;
+import com.example.demo.response.PaymentResponse;
 import com.example.demo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.example.demo.constants.DefaultAppConstants.*;
+import static com.example.demo.constants.UrlPagesConstants.*;
 
 @RestController
 @RequestMapping(PAYMENTS_PAGE_URL)

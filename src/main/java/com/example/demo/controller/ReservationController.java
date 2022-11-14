@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.request.ReservationRequest;
-import com.example.demo.request.ReservationResponse;
+import com.example.demo.response.ReservationResponse;
 import com.example.demo.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.example.demo.constants.DefaultAppConstants.RESERVATION_PAGE_URL;
+import static com.example.demo.constants.UrlPagesConstants.RESERVATION_PAGE_URL;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,9 +1,9 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.Reservation;
-import com.example.demo.entity.Ticket;
+import com.example.demo.entity.ReservationEntity;
+import com.example.demo.entity.TicketEntity;
 import com.example.demo.request.ReservationRequest;
-import com.example.demo.request.ReservationResponse;
+import com.example.demo.response.ReservationResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,9 +11,8 @@ import org.mapstruct.Mapping;
 public interface ReservationMapper {
 
     @Mapping(source = "ticket", target = "ticket")
-    Reservation reservationRequestToReservationEntity(ReservationRequest request, Ticket ticket);
+    ReservationEntity reservationRequestToReservationEntity(ReservationRequest request, TicketEntity ticket);
 
-//    @Mapping(source = "ticket", target = "ticket.id")
-    ReservationResponse reservationEntityToReservationResponse(Reservation reservation);
+    ReservationResponse reservationEntityToReservationResponse(ReservationEntity reservationEntity);
 
 }

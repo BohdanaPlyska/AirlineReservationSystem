@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,8 +15,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "userEntity")
+public class UserEntity {
 
     @Id
     @GeneratedValue
@@ -57,14 +56,14 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Payment> payments;
+    private Set<PaymentEntity> payments;
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "billingInformation_id", referencedColumnName = "id")
-    private BillingInformation billingInformation;
+    private BillingInformationEntity billingInformation;
 
     @ManyToMany
     @JsonIgnore
-    Set<Ticket> tickets;
+    Set<TicketEntity> tickets;
 
 }

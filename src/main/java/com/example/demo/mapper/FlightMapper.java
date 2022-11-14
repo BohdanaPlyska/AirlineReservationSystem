@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.Flight;
+import com.example.demo.entity.FlightEntity;
 import com.example.demo.request.FlightRequest;
-import com.example.demo.request.FlightResponse;
+import com.example.demo.response.FlightResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface FlightMapper {
 
-     Flight flightRequestToFlightEntity(FlightRequest flightRequest);
+     FlightEntity flightRequestToFlightEntity(FlightRequest flightRequest);
 
-     FlightResponse flightEntityToFlightResponse(Flight flightEntity);
+     FlightResponse flightEntityToFlightResponse(FlightEntity flightEntity);
 
-     List<FlightResponse> flightEntityListToFlightResponse(List<Flight> flightEntity);
+     List<FlightResponse> flightEntityListToFlightResponse(List<FlightEntity> flightEntity);
 
 }

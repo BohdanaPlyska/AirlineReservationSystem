@@ -1,4 +1,4 @@
-package com.example.demo.request;
+package com.example.demo.response;
 
 import lombok.Data;
 
@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class ReservationResponse {
-
-    private Long id;
 
     private LocalDateTime reservationDateTime;
 
