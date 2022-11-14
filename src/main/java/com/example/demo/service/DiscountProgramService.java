@@ -2,16 +2,19 @@ package com.example.demo.service;
 
 import com.example.demo.entity.DiscountProgramEntity;
 import com.example.demo.entity.TicketEntity;
+import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.DiscountProgramMapper;
 import com.example.demo.repository.DiscountProgramRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.request.DiscountProgramRequest;
-import com.example.demo.request.DiscountProgramResponse;
+import com.example.demo.response.DiscountProgramResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.demo.constants.ValidationMessages.TICKET_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -21,17 +24,11 @@ public class DiscountProgramService {
     private final DiscountProgramMapper discountMapper;
     private final TicketRepository ticketRepository;
 
-    public DiscountProgramResponse saveAndUpdate(DiscountProgramRequest discount) {
-
-        Optional<TicketEntity>  ticket = ticketRepository.findById(discount.getTicketId());
-        if(ticket.isEmpty()){
-            throw new RuntimeException();
-        }
-
+    public DiscountProgramResponse save(DiscountProgramRequest discount) {
+        Optional<TicketEntity>  ticket = findById(discount);
         DiscountProgramEntity validDataForPayment = discountMapper.discountProgramRequestToDiscountProgramEntity(discount, ticket.get());
-
-        DiscountProgramEntity discountProgram = discountRepository.save(validDataForPayment);
-        return discountMapper.discountProgramEntityToDiscountProgramResponse(discountProgram);
+        DiscountProgramEntity discountProgramEntity = discountRepository.save(validDataForPayment);
+        return discountMapper.discountProgramEntityToDiscountProgramResponse(discountProgramEntity);
     }
 
     public void delete(Long id) {
@@ -49,6 +46,14 @@ public class DiscountProgramService {
 
     public List<DiscountProgramResponse> allDiscounts() {
         return discountMapper.discountProgramEntityListToDiscountProgramResponseList(discountRepository.findAll());
+    }
+
+    public  Optional<TicketEntity> findById(DiscountProgramRequest discount) {
+        Optional<TicketEntity> ticket = ticketRepository.findById(discount.getTicket());
+        if (ticket.isEmpty()) {
+            throw new CustomFoundException(TICKET_NOT_FOUND);
+        }
+        return ticket;
     }
 
 }

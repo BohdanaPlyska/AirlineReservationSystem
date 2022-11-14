@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,21 +9,24 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "reservations")
+@Table(name = "reservationEntity")
 @NoArgsConstructor
 public class ReservationEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "reservation_date_time")
     private LocalDateTime reservationDateTime;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
+    @Column(name = "expiration_date_time")
     private LocalDateTime expirationDateTime;
 
-    @OneToOne(mappedBy = "reservationId")
-    private TicketEntity ticketId;
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_id", nullable = false)
+    @JsonIgnore
+    private TicketEntity ticket;
 
 }

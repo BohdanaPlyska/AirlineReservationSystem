@@ -1,42 +1,59 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import java.math.BigInteger;
+import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Entity(name = "billingsInformation")
+@Entity(name = "billingInformationEntity")
 public class BillingInformationEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
     @CreditCardNumber
-    private BigInteger cardNumber;
+    @Column(name = "card_number")
+    private String cardNumber;
 
+    @Column(name = "cvc")
+    @Size(min = 3, max = 4)
     private int cvc;
 
+    @Column(name = "expiration_day")
+    @Future
     private LocalDateTime expirationDay;
 
+    @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "owner_name")
     private String ownerName;
 
+    @Column(name = "owner_surname")
     private String ownerSurName;
 
+    @Column(name = "country_of_registration_card")
     private String countryOfRegistrationCard;
 
+    @Column(name = "city_of_registration_card")
     private String cityOfRegistrationCard;
 
+    @Column(name = "street_address")
     private String streetAddress;
 
+    @Column(name = "price")
     private Long price;
 
-    @OneToOne(mappedBy = "billingInformationId")
-    private UserEntity userId;
+    @OneToOne(mappedBy = "billingInformation")
+    private UserEntity user;
+
+
+    @OneToOne(mappedBy = "billingInformation")
+    @JsonIgnore
+    private TicketEntity ticket;
 }

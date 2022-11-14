@@ -1,11 +1,9 @@
-package com.example.demo.request;
-
+package com.example.demo.response;
 
 import lombok.Data;
 
-
 @Data
-public class UserResponse{
+public class UserResponse extends BaseResponse {
 
     private Long id;
 

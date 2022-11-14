@@ -1,16 +1,20 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "discountsProgram")
+@Table(name = "discountProgramEntity")
 public class DiscountProgramEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
-    @OneToOne(mappedBy = "discountProgramId")
-    private TicketEntity ticketId;
+    @OneToOne(mappedBy = "discountProgram")
+    @JsonIgnore
+    private TicketEntity ticket;
 
 }

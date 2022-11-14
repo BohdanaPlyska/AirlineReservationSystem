@@ -1,12 +1,18 @@
 package com.example.demo.mapper;
 
+import com.example.demo.entity.ReservationEntity;
+import com.example.demo.entity.TicketEntity;
+import com.example.demo.request.ReservationRequest;
+import com.example.demo.response.ReservationResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
 
-//    ReservationEntity reservationRequestToReservationEntity (ReservationRequest request);
+    @Mapping(source = "ticket", target = "ticket")
+    ReservationEntity reservationRequestToReservationEntity(ReservationRequest request, TicketEntity ticket);
 
-//    ReservationResponse reservationEntityToReservationRequest(ReservationEntity reservation);
+    ReservationResponse reservationEntityToReservationResponse(ReservationEntity reservationEntity);
 
 }

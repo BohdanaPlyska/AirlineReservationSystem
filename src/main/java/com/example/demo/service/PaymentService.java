@@ -2,43 +2,40 @@ package com.example.demo.service;
 import com.example.demo.entity.PaymentEntity;
 import com.example.demo.entity.TicketEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.CustomAlreadyExistException;
+import com.example.demo.exception.CustomFoundException;
 import com.example.demo.mapper.PaymentMapper;
 import com.example.demo.repository.PaymentRepository;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.request.PaymentRequest;
-import com.example.demo.request.PaymentResponse;
+import com.example.demo.response.PaymentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.constants.ValidationMessages.*;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+
     private final UserRepository userRepository;
+
     private final TicketRepository ticketRepository;
+
     private final PaymentMapper paymentMapper;
 
-    public PaymentResponse saveAndUpdate(PaymentRequest request) throws Exception{
-        //find bi id user if not exception
-        //the same for ticket
-        //put user, ticket, and data from request to
-        Optional<UserEntity> user =  userRepository.findById(request.getUserId());
-        if(user.isEmpty()){
-            throw  new Exception();
-        }
-
-        Optional<TicketEntity> ticket = ticketRepository.findById(request.getTicketId());
-        if(!ticket.isPresent()) {
-            throw new Exception();
-        }
-
-        PaymentEntity validDataForPayment = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
-        PaymentEntity paymentEntity = paymentRepository.save(validDataForPayment);
+    public PaymentResponse save(PaymentRequest request) {
+        findPaymentByTicket(request);
+        Optional<TicketEntity> ticket = findTicketById(request);
+        Optional<UserEntity> user = findUserById(request);
+        PaymentEntity validDataForPaymentEntity = paymentMapper.paymentRequestToPayment(request, user.get(), ticket.get());
+        PaymentEntity paymentEntity = paymentRepository.save(validDataForPaymentEntity);
         return paymentMapper.paymentEntityToPaymentResponse(paymentEntity);
     }
 
@@ -48,8 +45,8 @@ public class PaymentService {
     }
 
     public List<PaymentResponse> allPayments() {
-        List<PaymentEntity> paymentEntities = paymentRepository.findAll();
-        return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntities);
+        List<PaymentEntity> paymentEntityEntities = paymentRepository.findAll();
+        return paymentMapper.paymentEntityListToPaymentResponseList(paymentEntityEntities);
     }
 
     public Optional<PaymentEntity> getPayment(Long id){
@@ -57,7 +54,36 @@ public class PaymentService {
     }
 
     public PaymentResponse findById(Long id){
+        Optional<PaymentEntity> payment = paymentRepository.findById(id);
+        if(payment.isEmpty()){
+            throw new CustomFoundException(PAYMENT_NOT_FOUND);
+        }
         return paymentMapper.paymentEntityToPaymentResponse(paymentRepository.findById(id).get());
     }
+
+    public Optional<PaymentEntity> findPaymentByTicket(PaymentRequest request) {
+        Optional<PaymentEntity> paymentOptional = paymentRepository.findByTicketId(request.getTicket());
+        if(paymentOptional.isPresent()){
+            throw  new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST);
+        }
+        return paymentOptional;
+    }
+
+    public Optional<TicketEntity> findTicketById(PaymentRequest request) {
+        Optional<TicketEntity> ticket = ticketRepository.findById(request.getTicket());
+        if(ticket.isEmpty()) {
+            throw new CustomFoundException(TICKET_NOT_FOUND);
+        }
+        return ticket;
+    }
+
+    public Optional<UserEntity> findUserById(PaymentRequest request) {
+        Optional<UserEntity> user =  userRepository.findById(request.getUser());
+        if(user.isEmpty()){
+            throw  new CustomFoundException(USER_NOT_FOUND);
+        }
+        return user;
+    }
+
 
 }

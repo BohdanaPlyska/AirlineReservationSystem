@@ -1,15 +1,20 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.CustomFoundException;
+import com.example.demo.exception.CustomAlreadyExistException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.request.UserRequest;
-import com.example.demo.request.UserResponse;
+import com.example.demo.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.demo.constants.ValidationMessages.USER_ALREADY_EXIST;
+import static com.example.demo.constants.ValidationMessages.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +24,11 @@ public class UserService{
 
     private final UserMapper userMapper;
 
-    public UserEntity saveAndUpdate(UserRequest user) {
-        return userRepository.save(userMapper.userRequestToUserEntity(user));
+    public UserResponse save(UserRequest user) {
+        findUserByEmail(user);
+        UserEntity validDataForUser = userMapper.userRequestToUserEntity(user);
+        UserEntity userEntity = userRepository.save(validDataForUser);
+        return userMapper.userEntityToUserResponse(userEntity);
     }
 
     public void delete(Long id) {
@@ -33,11 +41,23 @@ public class UserService{
         return userMapper.userEntityListToUserResponseList(userEntityList);
     }
 
-    public UserResponse findById(Long id) {
-        return userMapper.userEntityToUserResponse(userRepository.findById(id).get());
-    }
-
     public Optional<UserEntity> getUser(Long id) {
         return userRepository.findById(id);
+    }
+
+    public  Optional<UserEntity> findUserByEmail(UserRequest user) {
+        Optional<UserEntity> userOptional = userRepository.findByEmail(user.getEmail());
+        if(userOptional.isPresent()) {
+            throw new CustomAlreadyExistException(USER_ALREADY_EXIST);
+        }
+        return userOptional;
+    }
+
+    public  UserResponse findById(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()){
+            throw  new CustomFoundException(USER_NOT_FOUND);
+        }
+        return userMapper.userEntityToUserResponse(user.get());
     }
 }

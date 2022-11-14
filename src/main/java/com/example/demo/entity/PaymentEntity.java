@@ -1,17 +1,17 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "payment")
+@Table(name = "paymentEntity")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentEntity {
@@ -21,27 +21,36 @@ public class PaymentEntity {
     @Column(name = "payment_id")
     private Long id;
 
-    private BigInteger cardNumber;
+    @Column(name = "card_number")
+    private String cardNumber;
 
-    private int cvc;
+    @Column(name = "cvc")
+    private String cvc;
 
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    @Column(name = "expiration_day")
     private LocalDate expirationDay;
 
+    @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "owner_name")
     private String ownerName;
 
+    @Column(name = "owner_sur_name")
     private String ownerSurName;
 
+    @Column(name = "final_price")
     private Long finalPrice;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userId;//rename
+    @JsonIgnore
+    private UserEntity user;
 
     @OneToOne( cascade=CascadeType.ALL)
     @JoinColumn(name = "ticket_id", nullable = false)
-    private TicketEntity ticket;//rename
+    @JsonIgnore
+    private TicketEntity ticket;
 
 }

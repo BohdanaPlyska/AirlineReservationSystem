@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,45 +10,52 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "tickets")
+@Table(name = "ticketEntity")
 @NoArgsConstructor
 public class TicketEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "flight_number")
     private String flightNumber;
 
-    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    @Column(name = "date_of_purchase")
     private LocalDateTime dateOfPurchase;
 
-    private int seatNumber;
+    @Column(name = "seat_number", nullable = false)
+    private Long seatNumber;
 
+    @Column(name = "type_of_ticket")
     private String typeOfTicket;
 
+    @Column(name = "price")
     private Long price;
 
     @ManyToMany
-    Set<UserEntity> userId;
+    Set<UserEntity> user;
 
     @OneToOne( mappedBy = "ticket")
     private PaymentEntity payment;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discount_id")
+    @JsonIgnore
+    private DiscountProgramEntity discountProgram;
 
-    @OneToOne
-    @JoinColumn(name = "discount_id", referencedColumnName = "id")
-    private DiscountProgramEntity discountProgramId;
+    @OneToOne(mappedBy = "ticket",orphanRemoval = true)
+    @JsonIgnore
+    private ReservationEntity reservation;
 
-    @OneToOne
-    @JoinColumn(name = "reservation_id", referencedColumnName = "id")
-    private ReservationEntity reservationId;
-
-    @OneToMany(mappedBy = "ticketId")
-    private Set<FlightEntity> flightId;
+    @OneToMany(mappedBy = "ticket")
+    @JsonIgnore
+    private Set<FlightEntity> flights;
 
     @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "billingInformation_id", referencedColumnName= "id")
-    private BillingInformationEntity billingInformationId;
+    @JoinColumn(name = "billingInformation_id")
+    @JsonIgnore
+    private BillingInformationEntity billingInformation;
 
 }

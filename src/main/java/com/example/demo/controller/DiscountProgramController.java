@@ -1,13 +1,15 @@
 package com.example.demo.controller;
 import com.example.demo.request.DiscountProgramRequest;
-import com.example.demo.request.DiscountProgramResponse;
+import com.example.demo.response.DiscountProgramResponse;
 import com.example.demo.service.DiscountProgramService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
-import static com.example.demo.constants.DefaultAppConstants.DISCOUNT_PROGRAM_PAGE_URL;
-import static com.example.demo.constants.DefaultAppConstants.ID_PAGE_URL;
+import static com.example.demo.constants.UrlPagesConstants.DISCOUNT_PROGRAM_PAGE_URL;
+import static com.example.demo.constants.UrlPagesConstants.ID_PAGE_URL;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +19,8 @@ public class DiscountProgramController {
     private final DiscountProgramService discountService;
 
     @PostMapping
-    public DiscountProgramResponse saveAndUpdate(@RequestBody DiscountProgramRequest discountProgram){
-        return discountService.saveAndUpdate(discountProgram);
+    public DiscountProgramResponse save(@RequestBody @Valid DiscountProgramRequest discountProgram) {
+        return discountService.save(discountProgram);
     }
 
     @DeleteMapping(ID_PAGE_URL)

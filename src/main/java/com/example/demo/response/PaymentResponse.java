@@ -1,11 +1,9 @@
-package com.example.demo.request;
+package com.example.demo.response;
 
 import lombok.Data;
 
 @Data
 public class PaymentResponse {
-
-    private Long id;
 
     private Boolean status;
 
@@ -14,4 +12,5 @@ public class PaymentResponse {
     private String ownerSurName;
 
     private Long finalPrice;
+
 }
