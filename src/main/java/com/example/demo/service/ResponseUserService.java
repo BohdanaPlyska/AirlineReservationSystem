@@ -12,8 +12,11 @@ import java.util.stream.Collectors;
 public class ResponseUserService {
 
     public List<String> getAllErrors(Errors error) {
-        return error.getAllErrors().stream()
-                .map(Object::toString)
-                .collect(Collectors.toList());
+        return error.getAllErrors()
+                    .stream()
+                        .map(Object::toString)
+                        .collect(Collectors.toList()
+                );
     }
+
 }

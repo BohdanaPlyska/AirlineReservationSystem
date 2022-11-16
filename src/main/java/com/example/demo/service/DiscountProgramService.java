@@ -49,11 +49,13 @@ public class DiscountProgramService {
     }
 
     public  Optional<TicketEntity> findById(DiscountProgramRequest discount) {
-        Optional<TicketEntity> ticket = ticketRepository.findById(discount.getTicket());
-        if (ticket.isEmpty()) {
-            throw new CustomFoundException(TICKET_NOT_FOUND);
-        }
-        return ticket;
+        return Optional
+                .ofNullable(
+                        ticketRepository
+                                .findById(discount.getTicket())
+                                .orElseThrow(() -> new CustomFoundException(TICKET_NOT_FOUND))
+                );
     }
+
 
 }

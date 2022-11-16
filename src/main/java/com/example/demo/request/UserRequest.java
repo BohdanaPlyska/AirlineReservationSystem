@@ -50,4 +50,5 @@ public class UserRequest {
     @Pattern(regexp = VALIDATION_CONSTANT_TYPE_OF_PASSPORT_NUMBER,
             message = "the password must be the old pattern, the first 2 letters and 6 digits, or the new pattern, 9 digits ")
     private String passportNumber;
+
 }

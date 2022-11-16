@@ -1,14 +1,12 @@
 package com.example.demo.exception;
 
 
-import com.example.demo.validator.UserValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,28 +37,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             errorResponse.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         return ResponseEntity.unprocessableEntity().body(errorResponse);
-    }
-
-    @ExceptionHandler(CustomFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> handleNoSuchElementFoundException(CustomFoundException itemNotFoundException, WebRequest request) {
-        log.error("Failed to find the requested element", itemNotFoundException);
-        return buildErrorResponse(itemNotFoundException, HttpStatus.NOT_FOUND, request);
-    }
-
-
-    @ExceptionHandler(CustomAlreadyExistException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Object> handleCustomAlreadyExistException(CustomAlreadyExistException itemNotFoundException, WebRequest request) {
-        log.error("Failed to find the requested element", itemNotFoundException);
-        return buildErrorResponse(itemNotFoundException, HttpStatus.CONFLICT, request);
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleAllUncaughtException(Exception exception, WebRequest request) {
-        log.error("Unknown error occurred", exception);
-        return buildErrorResponse(exception, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private ResponseEntity<Object> buildErrorResponse(Exception exception,
@@ -96,6 +72,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
 
         return buildErrorResponse(ex, status, request);
+    }
+
+    @ExceptionHandler(CustomFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleNoSuchElementFoundException(CustomFoundException itemNotFoundException, WebRequest request) {
+        log.error("Failed to find the requested element", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(CustomAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleCustomAlreadyExistException(CustomAlreadyExistException itemNotFoundException, WebRequest request) {
+        log.error("Failed to find the requested element", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> handleAllUncaughtException(Exception exception, WebRequest request) {
+        log.error("Unknown error occurred", exception);
+        return buildErrorResponse(exception, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
 }

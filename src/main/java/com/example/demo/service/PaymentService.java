@@ -54,36 +54,39 @@ public class PaymentService {
     }
 
     public PaymentResponse findById(Long id){
-        Optional<PaymentEntity> payment = paymentRepository.findById(id);
-        if(payment.isEmpty()){
-            throw new CustomFoundException(PAYMENT_NOT_FOUND);
-        }
-        return paymentMapper.paymentEntityToPaymentResponse(paymentRepository.findById(id).get());
+        return paymentMapper.paymentEntityToPaymentResponse(Optional
+                .ofNullable(
+                        paymentRepository
+                                .findById(id)
+                                .orElseThrow(() -> new CustomFoundException(PAYMENT_NOT_FOUND))
+                )
+                .get()
+        );
     }
 
     public Optional<PaymentEntity> findPaymentByTicket(PaymentRequest request) {
-        Optional<PaymentEntity> paymentOptional = paymentRepository.findByTicketId(request.getTicket());
-        if(paymentOptional.isPresent()){
-            throw  new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST);
-        }
-        return paymentOptional;
+        return Optional
+                .ofNullable(
+                        paymentRepository
+                                .findByTicketId(request.getTicket())
+                                .orElseThrow(() -> new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST))
+                );
     }
 
     public Optional<TicketEntity> findTicketById(PaymentRequest request) {
-        Optional<TicketEntity> ticket = ticketRepository.findById(request.getTicket());
-        if(ticket.isEmpty()) {
-            throw new CustomFoundException(TICKET_NOT_FOUND);
-        }
-        return ticket;
+        return Optional
+                .ofNullable(ticketRepository
+                        .findById(request.getTicket())
+                        .orElseThrow(() -> new CustomFoundException(TICKET_NOT_FOUND))
+                );
     }
 
     public Optional<UserEntity> findUserById(PaymentRequest request) {
-        Optional<UserEntity> user =  userRepository.findById(request.getUser());
-        if(user.isEmpty()){
-            throw  new CustomFoundException(USER_NOT_FOUND);
-        }
-        return user;
+        return Optional
+                .ofNullable(userRepository
+                        .findById(request.getUser())
+                        .orElseThrow(() -> new CustomFoundException(USER_NOT_FOUND))
+                );
     }
-
 
 }

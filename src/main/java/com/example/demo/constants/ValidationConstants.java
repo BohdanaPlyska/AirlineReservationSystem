@@ -2,9 +2,7 @@ package com.example.demo.constants;
 
 public class ValidationConstants {
 
-
     public static final String VALIDATION_FIELD_EMAIL = "email";
-
     public static final String VALIDATION_FIELD_PASSWORD = "password";
     public static final String VALIDATION_FIELD_PASSWORD_CONFIRM = "passwordConfirm";
     public static final Integer MAX_FIELD_VALUE = 32;

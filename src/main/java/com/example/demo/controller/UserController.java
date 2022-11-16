@@ -8,8 +8,6 @@ import com.example.demo.service.UserService;
 import com.example.demo.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,18 +22,20 @@ import static com.example.demo.constants.UrlPagesConstants.*;
 public class UserController {
 
     private final UserService userService;
+
     private final UserValidator userValidator;
+
     private final ResponseUserService responseUserService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse> save(@Valid @RequestBody UserRequest request, Errors error)  {
+    public BaseResponse save(@Valid @RequestBody UserRequest request, Errors error)  {
         userValidator.validate(request,error);
         if(error.hasErrors()) {
             BaseResponse baseResponse = new BaseResponse();
             baseResponse.setErrors(responseUserService.getAllErrors(error));
-              return new ResponseEntity<>(baseResponse, HttpStatus.BAD_REQUEST);
+              return  baseResponse;
         }
-        return new ResponseEntity<>(userService.save(request), HttpStatus.OK);
+        return userService.save(request);
     }
 
     @DeleteMapping(ID_PAGE_URL)

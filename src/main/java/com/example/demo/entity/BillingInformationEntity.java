@@ -8,7 +8,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Entity(name = "billingInformationEntity")
+@Entity(name = "billingInformation")
 public class BillingInformationEntity {
 
     @Id

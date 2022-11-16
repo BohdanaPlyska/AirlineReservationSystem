@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "flightEntity")
+@Table(name = "flights")
 @NoArgsConstructor
 public class FlightEntity {
 

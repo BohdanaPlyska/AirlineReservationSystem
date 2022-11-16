@@ -12,7 +12,8 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
     @Query("SELECT o FROM PaymentEntity o where o.user.id = :user and o.ticket.id = :ticket")
     Optional<PaymentEntity> findByUserAndTicket(
             @Param("user") Long user,
-            @Param("ticket") Long ticket);
+            @Param("ticket") Long ticket
+    );
 
     @Query("SELECT o FROM PaymentEntity o where o.ticket.id = :ticket")
     Optional<PaymentEntity> findByTicketId(@Param("ticket") Long ticket);

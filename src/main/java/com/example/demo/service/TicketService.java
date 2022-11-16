@@ -64,11 +64,14 @@ public class TicketService{
     }
 
     public TicketResponse findById(Long id) {
-        Optional<TicketEntity> ticket = ticketRepository.findById(id);
-        if (ticket.isEmpty()){
-            throw  new CustomFoundException(TICKET_NOT_FOUND);
-        }
-        return ticketMapper.ticketEntityToTicketResponse(ticketRepository.findById(id).get());
+        return ticketMapper.ticketEntityToTicketResponse(Optional
+                .ofNullable(
+                        ticketRepository
+                                .findById(id)
+                                .orElseThrow(() -> new CustomFoundException(TICKET_NOT_FOUND))
+                )
+                .get()
+        );
     }
 
     public Optional<TicketEntity> getTicket(Long id) {
@@ -76,19 +79,21 @@ public class TicketService{
     }
 
     public Optional<FlightEntity> findTicketByFlightNumber(TicketRequest ticket){
-        Optional<FlightEntity> flightOptional = flightRepository.findByFlightNumber(ticket.getFlightNumber());
-        if (flightOptional.isEmpty()){
-            throw  new CustomFoundException(FLIGHT_NOT_FOUND);
-        }
-        return flightOptional;
+        return Optional
+                .ofNullable(
+                        flightRepository
+                                .findByFlightNumber(ticket.getFlightNumber())
+                                .orElseThrow(() -> new CustomFoundException(FLIGHT_NOT_FOUND))
+                );
     }
 
     public Optional<TicketEntity> findTicketBySeatNumber(TicketRequest ticket){
-        Optional<TicketEntity> optionalTicket = ticketRepository.findBySeatNumber(ticket.getSeatNumber());
-        if(optionalTicket.isPresent()) {
-            throw new CustomFoundException(TICKET_ALREADY_EXIST);
-        }
-        return optionalTicket;
+         return Optional
+                .ofNullable(
+                        ticketRepository
+                            .findBySeatNumber(ticket.getSeatNumber())
+                            .orElseThrow(() ->  new CustomFoundException(TICKET_ALREADY_EXIST))
+                );
     }
 
 }

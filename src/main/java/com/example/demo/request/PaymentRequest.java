@@ -52,4 +52,5 @@ public class PaymentRequest {
     @NotNull
     @Range(min = 1, message= "ticket number may not be empty or null")
     private Long ticket;
+
 }

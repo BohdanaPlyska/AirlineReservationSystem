@@ -39,11 +39,12 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidationConstants.VALIDATION_FIELD_PASSWORD, NOT_EMPTY);
         if (user.getPassword().length() < MIN_PASSWORD_FIELD_VALUE || user.getPassword().length() > MAX_FIELD_VALUE) {
-            errors.rejectValue(ValidationConstants.VALIDATION_FIELD_PASSWORD, "Size.userForm.password");
+            errors.rejectValue(ValidationConstants.VALIDATION_FIELD_PASSWORD, "size.userForm.password");
         }
 
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            errors.rejectValue(ValidationConstants.VALIDATION_FIELD_PASSWORD_CONFIRM, "Diff.userForm.passwordConfirm");
+            errors.rejectValue(ValidationConstants.VALIDATION_FIELD_PASSWORD_CONFIRM, "diff.userForm.passwordConfirm");
         }
     }
+
 }

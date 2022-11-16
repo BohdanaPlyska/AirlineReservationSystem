@@ -46,18 +46,22 @@ public class UserService{
     }
 
     public  Optional<UserEntity> findUserByEmail(UserRequest user) {
-        Optional<UserEntity> userOptional = userRepository.findByEmail(user.getEmail());
-        if(userOptional.isPresent()) {
-            throw new CustomAlreadyExistException(USER_ALREADY_EXIST);
-        }
-        return userOptional;
+        return Optional
+                .ofNullable(
+                        userRepository
+                                .findByEmail(user.getEmail())
+                                .orElseThrow(() -> new CustomAlreadyExistException(USER_ALREADY_EXIST))
+                );
     }
 
     public  UserResponse findById(Long id) {
-        Optional<UserEntity> user = userRepository.findById(id);
-        if (user.isEmpty()){
-            throw  new CustomFoundException(USER_NOT_FOUND);
-        }
-        return userMapper.userEntityToUserResponse(user.get());
+        return userMapper.userEntityToUserResponse(Optional
+                .ofNullable(
+                        userRepository
+                                .findById(id)
+                                .orElseThrow(() -> new CustomFoundException(USER_NOT_FOUND)))
+                .get()
+        );
     }
+
 }

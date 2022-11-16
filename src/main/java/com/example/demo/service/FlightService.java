@@ -42,11 +42,14 @@ public class FlightService {
     }
 
     public FlightResponse findById(Long id) {
-        Optional<FlightEntity> flight = flightRepository.findById(id);
-        if(flight.isEmpty()){
-            throw new CustomFoundException(FLIGHT_NOT_FOUND);
-        }
-        return flightMapper.flightEntityToFlightResponse(flightRepository.findById(id).get());
+        return flightMapper.flightEntityToFlightResponse( Optional
+                .ofNullable(
+                        flightRepository
+                                .findById(id)
+                                .orElseThrow(() -> new CustomFoundException(FLIGHT_NOT_FOUND))
+                )
+                .get()
+        );
     }
 
     public Optional<FlightEntity> getFlight(Long id) {
@@ -54,11 +57,12 @@ public class FlightService {
     }
 
     public Optional<FlightEntity> findByFlightNUmber(FlightRequest flightRequest) {
-        Optional<FlightEntity> flightSearch = flightRepository.findByFlightNumber(flightRequest.getFlightNumber());
-        if (!flightSearch.isEmpty()) {
-            throw new CustomAlreadyExistException(FLIGHT_ALREADY_EXIST);
-        }
-        return flightSearch;
+        return Optional
+                .ofNullable(
+                        flightRepository
+                                .findByFlightNumber(flightRequest.getFlightNumber())
+                                .orElseThrow(() -> new CustomAlreadyExistException(FLIGHT_ALREADY_EXIST))
+                );
     }
 
 }

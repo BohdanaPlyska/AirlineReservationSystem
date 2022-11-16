@@ -16,9 +16,12 @@ public class PasswordMatchersExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public ResponseEntity<List> processUnmergeException(final MethodArgumentNotValidException ex) {
-        List list = ex.getBindingResult().getAllErrors().stream()
-                .map(fieldError -> fieldError.getDefaultMessage())
-                .collect(Collectors.toList());
+        List list = ex.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(
+                        fieldError -> fieldError.getDefaultMessage()
+                ).collect(Collectors.toList());
         return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
     }
 

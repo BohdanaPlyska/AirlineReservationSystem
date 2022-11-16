@@ -15,9 +15,13 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
+
     private final int status;
+
     private final String message;
+
     private String stackTrace;
+
     private List<ValidationError> errors;
 
     @Getter
@@ -34,4 +38,5 @@ public class ErrorResponse {
         }
         errors.add(new ValidationError(field, message));
     }
+
 }
