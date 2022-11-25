@@ -19,7 +19,7 @@ public class EmailService{
    public void sendMessage1(String to, String subject, String message) {
 
       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-      simpleMailMessage.setFrom("");
+      simpleMailMessage.setFrom("dfsdf");
       simpleMailMessage.setTo(to);
       simpleMailMessage.setSubject(subject);
       simpleMailMessage.setText(message);
