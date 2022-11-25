@@ -19,14 +19,14 @@ public class EmailService{
    public void sendMessage1(String to, String subject, String message) {
 
       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-      simpleMailMessage.setFrom("dfsdf");
+      simpleMailMessage.setFrom("");
       simpleMailMessage.setTo(to);
       simpleMailMessage.setSubject(subject);
       simpleMailMessage.setText(message);
 
       JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
       mailSender.setHost("smtp.gmail.com");
-      mailSender.setPort(25);
+      mailSender.setPort(465);
 
       mailSender.setUsername("");
       mailSender.setPassword("");
@@ -38,21 +38,13 @@ public class EmailService{
       props.put("mail.debug", "true");
       props.put("mail.smtp.ssl.protocols", "TLSv1.2");
       props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+      props.put("mail.smtp.socketFactory.port", 465);
+      props.put("mail.properties.mail.smtp.socketFactory.fallback", "true");
+      props.put("mail.properties.mail.smtp.ssl", "true");
 
       mailSender.send(simpleMailMessage);
    }
-
-//   $EmailFrom = “bohdana.plyska@gmail.com”
-//   $EmailTo = “bohdana.plyska@gmail.com”
-//   $usr="bohdana.plyska@gmail.com"
-//   $pass="giokdjqrkvpjwpup"
-//   $Subject = “The subject of your email”
-//   $Body = “What do you want your email to say”
-//   $SMTPServer = “smtp.gmail.com”
-//   $SMTPClient = New-Object Net.Mail.SmtpClient($SmtpServer, 587)
-//   $SMTPClient.EnableSsl = $true
-//   $SMTPClient.Credentials = New-Object System.Net.NetworkCredential(“usr”, “pass”)
-//   $SMTPClient.Send($EmailFrom, $EmailTo, $Subject, $Body)
 
     public void sendMessage( String to, String subject, String message) {
 
