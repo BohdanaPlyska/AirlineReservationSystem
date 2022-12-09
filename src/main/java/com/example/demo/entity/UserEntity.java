@@ -3,12 +3,15 @@ package com.example.demo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.util.Date;
 import java.util.Set;
+
+import static com.example.demo.constants.RegexConstants.VALIDATION_CONSTANT_TYPE_OF_PHONE_NUMBER;
 
 @Entity
 @Getter
@@ -22,6 +25,10 @@ public class UserEntity {
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "user_name")
+//    @NotBlank
+    private String userName;
 
     @Column(name = "first_name")
     @NotBlank
@@ -44,15 +51,25 @@ public class UserEntity {
     @Transient
     private String passwordConfirm;
 
+    @Column(name = "phoneNumber")
+    @Pattern(regexp = VALIDATION_CONSTANT_TYPE_OF_PHONE_NUMBER, message = " Should contain real phone number")
+    private String phoneNumber;
+
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     @Column(name = "date_of_birth")
-    @NotNull
+//    @NotNull
     @Past
     private Date dateOfBirth;
 
     @Column(name = "passport_Number")
-    @NotBlank
+//    @NotBlank
     private String passportNumber;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -65,5 +82,7 @@ public class UserEntity {
     @ManyToMany
     @JsonIgnore
     Set<TicketEntity> tickets;
+
+
 
 }

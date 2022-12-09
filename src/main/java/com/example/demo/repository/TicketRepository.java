@@ -9,4 +9,5 @@ public interface TicketRepository extends JpaRepository<TicketEntity,Long> {
 
     Optional<TicketEntity> findBySeatNumber(Long seatNumber);
 
+    TicketEntity findOneById(Long id);
 }

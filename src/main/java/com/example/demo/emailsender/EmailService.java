@@ -19,7 +19,7 @@ public class EmailService{
    public void sendMessage1(String to, String subject, String message) {
 
       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-      simpleMailMessage.setFrom("");
+      simpleMailMessage.setFrom("bohdana.plyska@gmail.com");
       simpleMailMessage.setTo(to);
       simpleMailMessage.setSubject(subject);
       simpleMailMessage.setText(message);
@@ -28,8 +28,8 @@ public class EmailService{
       mailSender.setHost("smtp.gmail.com");
       mailSender.setPort(465);
 
-      mailSender.setUsername("");
-      mailSender.setPassword("");
+      mailSender.setUsername("bohdana.plyska@gmail.com");
+      mailSender.setPassword("giokdjqrkvpjwpup");
 
       Properties props = mailSender.getJavaMailProperties();
       props.put("mail.transport.protocol", "smtp");

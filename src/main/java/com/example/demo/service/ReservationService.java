@@ -37,12 +37,17 @@ public class ReservationService {
     }
 
     public  Optional<ReservationEntity> findReservationByTicketId(ReservationRequest request){
-        return Optional
-                .ofNullable(
-                        reservationRepository
-                            .findByTicketId(request.getTicket())
-                            .orElseThrow(() -> new CustomAlreadyExistException(RESERVATION_ALREADY_EXIST))
-                );
+        Optional<ReservationEntity> reservation = reservationRepository.findByTicketId(request.getTicket());
+        if(reservation.isPresent()) {
+            throw new CustomAlreadyExistException(RESERVATION_ALREADY_EXIST);
+        }
+        return reservation;
+//        return Optional
+//                .ofNullable(
+//                        reservationRepository
+//                            .findByTicketId(request.getTicket())
+//                            .orElseThrow(() -> new CustomAlreadyExistException(RESERVATION_ALREADY_EXIST))
+//                );
     }
 
     public  Optional<TicketEntity> findTicketById(ReservationRequest request){

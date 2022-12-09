@@ -57,12 +57,17 @@ public class FlightService {
     }
 
     public Optional<FlightEntity> findByFlightNUmber(FlightRequest flightRequest) {
-        return Optional
-                .ofNullable(
-                        flightRepository
-                                .findByFlightNumber(flightRequest.getFlightNumber())
-                                .orElseThrow(() -> new CustomAlreadyExistException(FLIGHT_ALREADY_EXIST))
-                );
+        Optional<FlightEntity> flightSearch = flightRepository.findByFlightNumber(flightRequest.getFlightNumber());
+        if (!flightSearch.isEmpty()) {
+            throw new CustomAlreadyExistException(FLIGHT_ALREADY_EXIST);
+        }
+        return flightSearch;
+//        return Optional
+//                .ofNullable(
+//                        flightRepository
+//                                .findByFlightNumber(flightRequest.getFlightNumber())
+//                                .orElseThrow(() -> new CustomAlreadyExistException(FLIGHT_ALREADY_EXIST))
+//                );
     }
 
 }

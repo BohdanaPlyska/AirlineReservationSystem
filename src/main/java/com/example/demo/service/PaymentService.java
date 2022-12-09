@@ -65,12 +65,17 @@ public class PaymentService {
     }
 
     public Optional<PaymentEntity> findPaymentByTicket(PaymentRequest request) {
-        return Optional
-                .ofNullable(
-                        paymentRepository
-                                .findByTicketId(request.getTicket())
-                                .orElseThrow(() -> new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST))
-                );
+        Optional<PaymentEntity> paymentOptional = paymentRepository.findByTicketId(request.getTicket());
+        if(paymentOptional.isPresent()){
+            throw  new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST);
+        }
+        return paymentOptional;
+//        return Optional
+//                .ofNullable(
+//                        paymentRepository
+//                                .findByTicketId(request.getTicket())
+//                                .orElseThrow(() -> new CustomAlreadyExistException(PAYMENT_ALREADY_EXIST))
+//                );
     }
 
     public Optional<TicketEntity> findTicketById(PaymentRequest request) {
