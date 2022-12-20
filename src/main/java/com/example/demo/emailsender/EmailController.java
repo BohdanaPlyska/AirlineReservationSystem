@@ -14,7 +14,7 @@ public class EmailController {
 
     @PostMapping("/send-email")
     public ResponseEntity sendEmailMessage1(@RequestBody EmailMessage emailMessage) {
-     this.emailService.sendMessage(
+     this.emailService.sendMessage1(
              emailMessage.getTo(),
              emailMessage.getSubject(),
              emailMessage.getMessage()

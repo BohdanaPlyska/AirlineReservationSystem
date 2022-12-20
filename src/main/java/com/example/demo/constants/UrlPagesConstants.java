@@ -12,7 +12,7 @@ public class UrlPagesConstants {
 
 
 	public static final String DEFAULT_USER_NAME_ADMIN = "admin";
-	public static final String DEFAULT_USER_PASSWORD_FOR_ADMIN = "1";
+	public static final String DEFAULT_USER_PASSWORD_FOR_ADMIN = "11111111";
 	public static final Long DEFAULT_USER_ADMIN_ID = 1L;
 	public static final String DEFAULT_USER_ADMIN_EMAIL = "admin@admin.com";
 

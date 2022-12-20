@@ -54,7 +54,7 @@ public class TicketService{
         return null;
     }
 
-    public TicketResponse createReservationForTicket(Long id) {
+    public TicketResponse createReservationForTicket(Long id, String email) {
         findById(id);
         TicketEntity ticket = ticketRepository.findOneById(id);
 
@@ -65,18 +65,15 @@ public class TicketService{
         request.setTicket(id);
         reservationService.save(request);
 
-//        emailService.sendMessage1(ticket.);
+        emailService.sendMessage1(email, "reservation" , "You make a reservation");// HERE NEED TO CONNECT TEMPLATE
 
         return ticketMapper.ticketEntityToTicketResponse(ticket);
-
-
 //        when user choose the ticket we make a reservation
 //        make a record in tables
 //        send email about reservation
 //        need to call mail sender and sent email
 //
 //
-
     }
 
     public TicketResponse save(TicketRequest ticket) {

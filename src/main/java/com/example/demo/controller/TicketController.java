@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.TicketEntity;
+import com.example.demo.entity.UserEntity;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.request.TicketRequest;
 import com.example.demo.response.TicketResponse;
+import com.example.demo.response.UserResponse;
 import com.example.demo.service.TicketService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,9 +24,12 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    private final UserService userService;
+
     @PostMapping("/createReservationForTicket/{id}")
-    public TicketResponse createReservationForTicket(@PathVariable("id") Long id) {
-        return  ticketService.createReservationForTicket(id);
+    public TicketResponse createReservationForTicket(@PathVariable("id") Long id, Authentication authentication) {
+        UserResponse user = userService.findByEmail(authentication.getName());
+        return  ticketService.createReservationForTicket(id, user.getEmail());
     }
 
     @PostMapping
@@ -45,6 +52,5 @@ public class TicketController {
     public TicketResponse getTicket(@PathVariable Long id) {
         return ticketService.findById(id);
      }
-
 
 }

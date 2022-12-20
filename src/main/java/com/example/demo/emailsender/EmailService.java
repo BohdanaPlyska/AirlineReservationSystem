@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Properties;
 
 
@@ -16,9 +17,10 @@ public class EmailService{
 
    private final JavaMailSender emailSender;
 
-   public void sendMessage1(String to, String subject, String message) {
+   public void sendMessage1(String to, String subject, String message ) {
 
       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+
       simpleMailMessage.setFrom("bohdana.plyska@gmail.com");
       simpleMailMessage.setTo(to);
       simpleMailMessage.setSubject(subject);
@@ -46,15 +48,16 @@ public class EmailService{
       mailSender.send(simpleMailMessage);
    }
 
-    public void sendMessage( String to, String subject, String message) {
 
-       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-       simpleMailMessage.setFrom("bohdana.plyska@gmail.com");
-       simpleMailMessage.setTo(to);
-       simpleMailMessage.setSubject(subject);
-       simpleMailMessage.setText(message);
-
-       this.emailSender.send(simpleMailMessage);
-   }
+//    public void sendMessage( String to, String subject, String message) {
+//
+//       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+//       simpleMailMessage.setFrom("bohdana.plyska@gmail.com");
+//       simpleMailMessage.setTo(to);
+//       simpleMailMessage.setSubject(subject);
+//       simpleMailMessage.setText(message);
+//
+//       this.emailSender.send(simpleMailMessage);
+//   }
 
 }

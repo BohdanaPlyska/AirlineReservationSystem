@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
-import com.example.demo.exception.CustomFoundException;
+import com.example.demo.entity.UserEntity;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Lazy;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,18 +24,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private  final JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter) {
+    private final UserRepository userRepository;
+
+    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter, UserRepository userRepository) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.userRepository = userRepository;
     }
 
     private final static List<UserDetails> APP_USERS = Arrays.asList(
@@ -49,15 +53,14 @@ public class SecurityConfig {
     );
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {    //authorization
         http
-                .csrf().disable()
-                .authorizeRequests()
+                .csrf().disable().authorizeRequests()
 //                .antMatchers("/admin").hasRole("ADMIN")
 //                .antMatchers("/user").hasRole("USER")
                 .antMatchers("/register").permitAll()
@@ -85,22 +88,32 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
-            @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return APP_USERS
-                        .stream()
-                        .filter(u  -> u.getUsername().equals(email))
-                        .findFirst()
-                        .orElseThrow(() -> new CustomFoundException("User not found"));
+                Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
+                if (userEntityOptional.isEmpty()) {
+                    throw new UsernameNotFoundException(email);
+                }
+                UserEntity user = userEntityOptional.get();
+                Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+
+                return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+//                return APP_USERS
+//                        .stream()
+//                        .filter(u  -> u.getUsername().equals(email))
+//                        .findFirst()
+//                        .orElseThrow(() -> new CustomFoundException("User not found"));
+//            }
+//        };
             }
         };
-    }
 
+    }
 }

@@ -11,4 +11,6 @@ public class UserResponse extends BaseResponse {
 
     private String lastName;
 
+    private String email;
+
 }

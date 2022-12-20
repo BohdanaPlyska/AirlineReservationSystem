@@ -31,19 +31,18 @@ public class UserService{
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @PostConstruct
     public void postConstruct() {
-        Optional<UserEntity> user = userRepository.findById(DEFAULT_USER_ADMIN_ID);
+        Optional<UserEntity> user = userRepository.findByEmail(DEFAULT_USER_ADMIN_EMAIL);
         if (user.isEmpty()) {
             UserEntity admin = new UserEntity();
             admin.setId(DEFAULT_USER_ADMIN_ID);
-            admin.setUserName(DEFAULT_USER_NAME_ADMIN);
             admin.setRole(Role.ROLE_ADMIN);
             admin.setPassword(bCryptPasswordEncoder.encode(DEFAULT_USER_PASSWORD_FOR_ADMIN));
             admin.setEmail(DEFAULT_USER_ADMIN_EMAIL);
             admin.setFirstName("Bohdana");
             admin.setLastName("Ford");
+            admin.setActive(true);
             admin.setPhoneNumber("+380967548484");
             userRepository.save(admin);
         }
@@ -60,6 +59,16 @@ public class UserService{
         UserEntity validDataForUser = userMapper.userRequestToUserEntity(user);
         UserEntity userEntity = userRepository.save(validDataForUser);
         return userMapper.userEntityToUserResponse(userEntity);
+    }
+
+    public UserResponse findByUserName(String username) {
+        Optional<UserEntity> optionalUser = userRepository.findByUserName(username);
+        return userMapper.userEntityToUserResponse(optionalUser.orElse(null));
+    }
+
+    public UserResponse findByEmail(String email) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+        return userMapper.userEntityToUserResponse(optionalUser.orElse(null));
     }
 
     public void delete(Long id) {
