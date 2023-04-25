@@ -20,4 +20,5 @@ public class HomeResource {
     public String admin() {
         return "welcome admin";
     }
+
 }

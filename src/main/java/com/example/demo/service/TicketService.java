@@ -11,7 +11,6 @@ import com.example.demo.request.ReservationRequest;
 import com.example.demo.request.TicketRequest;
 import com.example.demo.response.TicketResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -72,8 +71,6 @@ public class TicketService{
 //        make a record in tables
 //        send email about reservation
 //        need to call mail sender and sent email
-//
-//
     }
 
     public TicketResponse save(TicketRequest ticket) {

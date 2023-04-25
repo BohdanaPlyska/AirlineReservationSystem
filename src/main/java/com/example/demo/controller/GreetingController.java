@@ -18,4 +18,5 @@ public class GreetingController {
     public ResponseEntity<String> sayGoodBye() {
         return ResponseEntity.ok("GoodBye from API");
     }
+
 }

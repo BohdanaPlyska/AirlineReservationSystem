@@ -48,16 +48,4 @@ public class EmailService{
       mailSender.send(simpleMailMessage);
    }
 
-
-//    public void sendMessage( String to, String subject, String message) {
-//
-//       SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-//       simpleMailMessage.setFrom("bohdana.plyska@gmail.com");
-//       simpleMailMessage.setTo(to);
-//       simpleMailMessage.setSubject(subject);
-//       simpleMailMessage.setText(message);
-//
-//       this.emailSender.send(simpleMailMessage);
-//   }
-
 }

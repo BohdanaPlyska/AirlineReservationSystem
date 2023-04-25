@@ -3,8 +3,6 @@ package com.example.demo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -27,7 +25,6 @@ public class UserEntity {
     private Long id;
 
     @Column(name = "user_name")
-//    @NotBlank
     private String userName;
 
     @Column(name = "first_name")
@@ -82,7 +79,5 @@ public class UserEntity {
     @ManyToMany
     @JsonIgnore
     Set<TicketEntity> tickets;
-
-
 
 }

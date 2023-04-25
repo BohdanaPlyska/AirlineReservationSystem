@@ -40,5 +40,4 @@ public class FlightController {
         return flightService.findById(id);
     }
 
-
 }

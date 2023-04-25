@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserEntity;
-import com.example.demo.repository.UserRepository;
+
 import com.example.demo.request.TicketRequest;
 import com.example.demo.response.TicketResponse;
 import com.example.demo.response.UserResponse;
@@ -9,7 +8,6 @@ import com.example.demo.service.TicketService;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
